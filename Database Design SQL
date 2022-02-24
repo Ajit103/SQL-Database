@@ -1,0 +1,230 @@
+DROP DATABASE IF EXISTS sportek;
+CREATE DATABASE sportek;
+USE sportek;
+
+-- -----------------------------------------------------
+-- Table `sportek`.`address`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `address` (
+  `address_id` INT(3) NOT NULL  PRIMARY KEY AUTO_INCREMENT,
+  `city` VARCHAR(45) NOT NULL,
+  `state` VARCHAR(45) NOT NULL,
+  `country` VARCHAR(45) NOT NULL,
+  `postal_code` VARCHAR(8) NOT NULL);
+
+ 
+-- -----------------------------------------------------
+-- Table `sportek`.`contact_details`
+-- ----------------------------------------------------- 
+CREATE TABLE IF NOT EXISTS `contact_details` (
+  `contact_id` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `address` VARCHAR(55) NOT NULL,
+  `point_of_contact` VARCHAR(45) NOT NULL,
+  `email_id` VARCHAR(45) NOT NULL UNIQUE,
+  `address_id` INT(3) NOT NULL,
+  `phone_number` VARCHAR(20) NOT NULL,
+	CONSTRAINT `address_id`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `sportek`.`address` (`address_id`)
+    );
+
+-- -----------------------------------------------------
+-- Table `sportek`.`location`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `location` (
+  `location_id` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `contact_id` INT(3) NOT NULL,
+	CONSTRAINT `contact_id`
+    FOREIGN KEY (`contact_id`)
+    REFERENCES `sportek`.`contact_details` (`contact_id`)
+    );
+
+-- -----------------------------------------------------
+-- Table `sportek`.`school`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `school` (
+  `school_id` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `schoolcontact_id` INT(3) NOT NULL,
+	CONSTRAINT `schoolcontact_id`
+    FOREIGN KEY (`schoolcontact_id`)
+    REFERENCES `sportek`.`contact_details` (`contact_id`)
+    );
+    
+- -----------------------------------------------------
+-- Table `sportek`.`sponsor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sponsor` (
+  `sponsor_id` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `sponsorcontact_id` INT(3) NOT NULL,
+	CONSTRAINT `sponsorcontact_id`
+    FOREIGN KEY (`sponsorcontact_id`)
+    REFERENCES `sportek`.`contact_details` (`contact_id`)
+    );
+    
+
+-- -----------------------------------------------------
+-- Table `sportek`.`event`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sportek`.`event` (
+  `event_id` INT(3) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(2500),
+  `date` DATETIME DEFAULT NOW(),
+  `cost` DECIMAL(30,2) NOT NULL,
+  `location_id` INT(3) NOT NULL,
+  `school_id` INT(3) NOT NULL,
+  `sponsor_id` INT(3) NOT NULL,
+  CONSTRAINT `location_id`
+    FOREIGN KEY (`location_id`)
+    REFERENCES `sportek`.`location` (`location_id`),
+  CONSTRAINT `school_id`
+    FOREIGN KEY (`school_id`)
+    REFERENCES `sportek`.`school` (`school_id`),
+  CONSTRAINT `sponsor_id`
+    FOREIGN KEY (`sponsor_id`)
+    REFERENCES `sportek`.`sponsor` (`sponsor_id`)
+    );
+    
+    
+##INSERTING DATA INTO TABLES
+
+##Address
+insert into address  values (1,'Washington', 'District of Columbia', 'United States', '20051');
+insert into address  values (2,'Philadelphia', 'Pennsylvania', 'United States', '19131');
+insert into address  values (3,'Lansing', 'Michigan', 'United States', '48956');
+insert into address  values (4,'Topeka', 'Kansas', 'United States', '66629');
+insert into address  values (5,'Minneapolis', 'Minnesota', 'United States', '55480');
+insert into address  values (6,'Roanoke', 'Virginia', 'United States', '24034');
+insert into address  values (7,'Washington', 'District of Columbia', 'United States', '20268');
+insert into address  values (8,'Philadelphia', 'Pennsylvania', 'United States', '19093');
+insert into address  values (9,'Springfield', 'Missouri', 'United States', '65805');
+insert into address  values (10,'Des Moines', 'Iowa', 'United States', '50330');
+insert into address  values (11,'Wilmington', 'Delaware', 'United States', '19810');
+insert into address  values (12,'Washington', 'District of Columbia', 'United States', '20580');
+insert into address  values (13,'New York City', 'New York', 'United States', '10090');
+insert into address  values (14,'San Jose', 'California', 'United States', '95128');
+insert into address  values (15,'Elmira', 'New York', 'United States', '14905');
+insert into address  values (16,'Pittsburgh', 'Pennsylvania', 'United States', '15240');
+insert into address  values (17,'Brooklyn', 'New York', 'United States', '11210');
+insert into address  values (18,'Orlando', 'Florida', 'United States', '32835');
+insert into address  values (19,'Providence', 'Rhode Island', 'United States', '02912');
+insert into address  values (20,'Chattanooga', 'Tennessee', 'United States', '37405');
+
+
+##Contact_details
+insert into contact_details  values (1,'Yves Trounce', '1141 Pierstorff Lane', 'Lukken', 'ytrounce0@barnesandnoble.com', 1, '7862655281');
+insert into contact_details  values (2, 'Rina Broadbear', '1509 Burning Wood Lane', '5th', 'rbroadbear1@tmall.com', 2, '9932815543');
+insert into contact_details  values (3, 'Quinn Kingswood', '825 Springview Plaza', 'Golden Leaf', 'qkingswood2@youtube.com', 3, '3359487281');
+insert into contact_details  values (4, 'Kimbell Fowells', '4 Grover Terrace', 'Sutteridge', 'kfowells3@diigo.com', 4, '6263378123');
+insert into contact_details  values (5, 'Lowrance Deely', '6720 Village Point', 'Hovde', 'ldeely4@hp.com', 5, '5019731048');
+insert into contact_details  values (6, 'Allie O''Clery', '096 Riverside Drive', 'Amoth', 'aoclery5@about.com', 6, '2824241780');
+insert into contact_details  values (7, 'Sidnee Dikels', '7045 Chive Terrace', 'Lindbergh', 'sdikels6@discuz.net', 7, '1064135471');
+insert into contact_details  values (8, 'Angel Matussevich', '15 Spaight Junction', 'Lerdahl', 'amatussevich7@mashable.com', 8, '0762691743');
+insert into contact_details  values (9, 'Marylou Guslon', '0 Florence Junction', 'Merrick', 'mguslon8@instagram.com', 9, '6378952949');
+insert into contact_details  values (10, 'Madeleine Goscomb', '10921 Oak Junction', 'Anzinger', 'mgoscomb9@icq.com', 10, '4699976417');
+insert into contact_details  values (11, 'Darby Klimko', '234 Miller Street', 'Nancy', 'dklimkoa@elpais.com', 11, '5005460500');
+insert into contact_details  values (12, 'Aindrea Dawnay', '09786 Sauthoff Drive', 'Hermina', 'adawnayb@ovh.net', 12, '0011367490');
+insert into contact_details  values (13, 'Ciro Blundin', '99 Kim Terrace', 'Logan', 'cblundinc@uiuc.edu', 13, '9669043646');
+insert into contact_details  values (14, 'Sunny Putton', '18 Almo Road', 'Atwood', 'sputtond@tiny.cc', 14, '7585571569');
+insert into contact_details  values (15, 'Aindrea Bunford', '80 Northland Junction', 'Mallard', 'abunforde@spotify.com', 15, '4596591059');
+insert into contact_details  values (16, 'Adelice Flaws', '92 Prairie Rose Center', 'Nobel', 'aflawsf@blogspot.com', 16, '9201229976');
+insert into contact_details  values (17, 'Archibold Demangel', '1 Grayhawk Plaza', 'Lotheville', 'ademangelg@simplemachines.org', 17, '0248284029');
+insert into contact_details  values (18, 'Yevette De la Zenne', '6803 Derek Trail', 'Village', 'ydeh@bloglovin.com', 18, '9313714825');
+insert into contact_details  values (19, 'Elianore Shearman', '14592 Trailsway Avenue', 'Randy', 'eshearmani@miitbeian.gov.cn', 19, '2402640723');
+insert into contact_details  values (20, 'Salmon Gives', '5473 Westport Court', 'Armistice', 'sgivesj@smugmug.com', 20, '9604824511');
+
+##Location
+insert into location  values (1, '8164 Ramsey Plaza', 1);
+insert into location  values (2, '14 Anniversary Place', 2);
+insert into location  values (3, '98951 Pine View Hill', 3);
+insert into location  values (4, '89278 Fisk Pass', 4);
+insert into location  values (5, '5858 Goodland Place', 5);
+insert into location  values (6, '75 Portage Court', 6);
+insert into location  values (7, '22219 Farwell Parkway', 7);
+insert into location  values (8, '28 Meadow Valley Way', 8);
+insert into location  values (9, '5 Mcguire Road', 9);
+insert into location  values (10, '7026 Manufacturers Trail', 10);
+insert into location  values (11, '5 Merchant Road', 11);
+insert into location  values (12, '86060 Armistice Terrace', 12);
+insert into location  values (13, '1 Manufacturers Parkway', 13);
+insert into location  values (14, '98984 Thackeray Place', 14);
+insert into location  values (15, '5248 Bluestem Junction', 15);
+insert into location  values (16, '3396 Kings Terrace', 16);
+insert into location  values (17, '50629 Valley Edge Court', 17);
+insert into location  values (18, '7 Longview Circle', 18);
+insert into location  values (19, '30244 Pleasure Alley', 19);
+insert into location  values (20, '01415 Orin Way', 20);
+
+##School
+insert into school  values (1, 'Hermiston Inc', 1);
+insert into school  values (2, 'Swift-Pfeffer', 2);
+insert into school  values (3, 'Feest, Cronin and Hayes', 3);
+insert into school  values (4, 'Walter-Marvin', 4);
+insert into school  values (5, 'Beahan-Bernhard', 5);
+insert into school  values (6, 'Weber, Sanford and Schroeder', 6);
+insert into school  values (7, 'Labadie Group', 7);
+insert into school  values (8, 'Homenick-Rau', 8);
+insert into school  values (9, 'Stokes, Berge and Murphy', 9);
+insert into school  values (10, 'Von-Kihn', 10);
+insert into school  values (11, 'Marvin and Sons', 11);
+insert into school  values (12, 'Weissnat-Kihn', 12);
+insert into school  values (13, 'Cartwright Group', 13);
+insert into school  values (14, 'Monahan Group', 14);
+insert into school  values (15, 'Hegmann-Gusikowski', 15);
+insert into school values (16, 'Hills-Hartmann', 16);
+insert into school  values (17, 'Gorczany-Rath', 17);
+insert into school  values (18, 'Block Inc', 18);
+insert into school  values (19, 'Klein Inc', 19);
+insert into school  values (20, 'McCullough, Dickinson and Schinner', 20);
+
+##Sponsor
+insert into sponsor  values (1, 'Graham, Bayer and Frami', 1);
+insert into sponsor  values (2, 'Grady, Johnson and Rosenbaum', 2);
+insert into sponsor  values (3, 'Weissnat, Keebler and Dibbert', 3);
+insert into sponsor  values (4, 'Collier-Fahey', 4);
+insert into sponsor  values (5, 'Boehm LLC', 5);
+insert into sponsor  values (6, 'Zemlak, Brekke and Grant', 6);
+insert into sponsor  values (7, 'Douglas and Sons', 7);
+insert into sponsor  values (8, 'Wiza, Cummings and Champlin', 8);
+insert into sponsor  values (9, 'Feeney, Marvin and McCullough', 9);
+insert into sponsor  values (10, 'Haag-Ondricka', 10);
+insert into sponsor  values (11, 'Rath, Gerhold and Fisher', 11);
+insert into sponsor  values (12, 'Nolan, Jacobi and Wunsch', 12);
+insert into sponsor  values (13, 'Leannon, Kirlin and Ferry', 13);
+insert into sponsor  values (14, 'Connelly, Ebert and Gutkowski', 14);
+insert into sponsor  values (15, 'O''Keefe-Krajcik', 15);
+insert into sponsor  values (16, 'Reynolds-Hand', 16);
+insert into sponsor  values (17, 'Grimes Group', 17);
+insert into sponsor  values (18, 'Grant, Gerhold and Ryan', 18);
+insert into sponsor  values (19, 'Miller-Von', 19);
+insert into sponsor  values (20, 'Lehner Inc', 20);
+
+
+##Event
+insert into event  values (1, 'Basketball Competition', 'Basketball games will be organized', '2019-07-30 02:21:36', '49400', 1, 1, 1);
+insert into event  values (2, 'Ski Championship', 'Ski games will be organized', '2019-01-28 01:23:03', '78400', 2, 2, 2);
+insert into event  values (3, 'Baseball Classic', 'Baseball games will be organized', '2019-09-14 12:54:55', '80400', 3, 3, 3);
+insert into event  values (4, 'Aquatic American Championship', 'Aquatic games like swimming competition will be conducted', '2019-04-02 20:58:58', '24000', 4, 4, 4);
+insert into event  values (5, 'Billabong Surfing', 'Surfing games will be organized', '2019-09-16 04:29:19','50600', 5, 5, 5);
+insert into event  values (6, 'Men race', 'Racing for men aged 15-40 will be organized', '2019-02-24 03:46:41', '26800', 6, 6, 6);
+insert into event  values (7, 'Women Marathon', 'Marathon for women will be organized', '2019-01-02 07:23:48', '65000', 7, 7, 7);
+insert into event  values (8, 'Grand Slam', 'Lounge Tennis games will be organized', '2019-09-30 10:25:02', '40000', 8, 8, 8);
+insert into event  values (9, 'City Marathon', 'Marathon race for people of Toronto will be organized ', '2019-06-01 09:20:39', '94200', 9, 9, 9);
+insert into event  values (10, 'Rugby Championship', 'Rugby games will be organized ', '2019-11-19 12:03:56', '22200', 10, 10, 10);
+insert into event  values (11, 'Cricket contest', 'Cricket games of domestic teams will be organized.', '2018-12-16 03:59:41', '34500', 11, 11, 11);
+insert into event  values (12, 'Soccer Mania', 'Soccer games will be organized ', '2019-06-21 07:34:16', '276000', 12, 12, 12);
+insert into event  values (13, 'Ocean Race', 'Racing of yachts will be organized ', '2019-06-15 01:03:02', '88400', 13, 13, 13);
+insert into event  values (14, 'GrandPrix', 'Car racing games will be organized ', '2019-03-21 14:09:38', '53200', 14, 14, 14);
+insert into event  values (15, 'Masters Golf', 'Golf games will be organized ', '2019-09-01 06:08:52', '462000.55', 15, 15, 15);
+insert into event  values (16, 'Ice Hockey Competition', 'Ice Hockey games will be organized ', '2019-11-29 07:30:27', '60500.92', 16, 16, 16);
+insert into event  values (17, 'Sudbury Open', 'Lounge tennis games will be organized ', '2019-03-05 23:33:31', '88904.83', 17, 17, 17);
+insert into event  values (18, 'Archery Hero', 'Archery games will be organized ', '2019-01-26 09:16:22', '85980.59', 18, 18, 18);
+insert into event  values (19, 'Pingpong championship', 'Table tennis games will be organized', '2019-01-04 06:16:58', '54000.22', 19, 19, 19);
+insert into event  values (20, 'Little Olympics', 'Athletic games will be organized ', '2019-09-02 14:48:15', '36740.62', 20, 20, 20);
+
+
+
